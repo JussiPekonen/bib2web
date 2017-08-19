@@ -12,7 +12,7 @@ use my code (see the copyright and forking section in the end of this README).
 
 Because I'm playing with different programming languages, this repository will grow with time.
 However, it will be mostly empty for a while because I have also other things to do and my
-skills in all listed programming languages require some practice first..
+skills in all listed programming languages require some practice first…
 
 ## Implementations
 
@@ -28,11 +28,13 @@ In alphabetical (and most likely in implementation) order:
 * C++
 * Java
 * JavaScript
+* Kotlin
 * Objective-C
 * Objective-C++
 * Perl
 * Python
 * Ruby
+* Swift
 
 You can ask for more, if you like.
 
