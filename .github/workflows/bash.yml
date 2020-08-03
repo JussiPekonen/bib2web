@@ -1,0 +1,17 @@
+name: Bash-checks
+on:
+  push:
+    paths:
+      - 'bash/*'
+
+jobs:
+  build:
+    name: Bash-lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup
+        run: cmake . -Bout
+      - name: lint
+        run: make -Cout bash-lint
