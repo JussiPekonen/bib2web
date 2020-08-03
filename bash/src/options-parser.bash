@@ -17,7 +17,9 @@ parseOptions() {
 					shift
 					;;
 				*)
-					BIB2WEB_BIBTEX_FILE="$1"
+					if [ "${BIB2WEB_BIBTEX_FILE}" == "" ]; then
+						BIB2WEB_BIBTEX_FILE="$1"
+					fi
 					shift
 					;;
 		esac

@@ -15,6 +15,12 @@ testParseOptionsBibTeXFileGiven() {
 	assertEquals "${bibTeXFile}" "${BIB2WEB_BIBTEX_FILE}"
 }
 
+testParseOptionsOnlyFirstFileIsChosen() {
+	local bibTeXFile="foo.bib"
+	parseOptions "${bibTeXFile}" "--bar" "bork"
+	assertEquals "${bibTeXFile}" "${BIB2WEB_BIBTEX_FILE}"
+}
+
 testParseOptionsFormatWithShortNotation() {
 	local testFormat="foo"
 	parseOptions "-f" "${testFormat}"
