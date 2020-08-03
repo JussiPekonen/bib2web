@@ -1,6 +1,6 @@
 name: Bash-checks
 on:
-  push:
+  pull_request:
     paths:
       - 'bash/*'
 
