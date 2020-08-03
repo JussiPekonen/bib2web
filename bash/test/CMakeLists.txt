@@ -1,23 +1,14 @@
-# Pre-check that shunit2 is available
-execute_process(COMMAND which ARGS shunit2
-	OUTPUT_VARIABLE BIB2WEB_SHUNIT2
-	ERROR_QUIET)
-string(REGEX REPLACE "\n" "" BIB2WEB_SHUNIT2 "${BIB2WEB_SHUNIT2}")
+# The individual test files
+set(BASH_TEST_FILES
+	${CMAKE_CURRENT_SOURCE_DIR}/option-parsing.bash
+)
 
-# The shunit2 does not exist, no Bash tests will be added the build
-if(NOT EXISTS "${BIB2WEB_SHUNIT2}")
-	message(WARNING "shunit2 does not exist. No Bash tests will be added to the build.")
-else()
-
-	# The individual test files
-	set(BASH_TEST_FILES
-	)
-
+if(BIB2WEB_SHUNIT2_EXISTS)
 	# Generate the master test file to be run
 	set(BASH_TEST_MASTER_FILE "${CMAKE_CURRENT_BINARY_DIR}/.bash-test.sh")
 	add_custom_command(
 		OUTPUT "${BASH_TEST_MASTER_FILE}"
-		COMMAND /bin/bash ARGS "${CMAKE_CURRENT_SOURCE_DIR}/generate-test-master.bash" "${BASH_TEST_MASTER_FILE}" "${BIB2WEB_SHUNIT2}" "${BASH_TEST_FILES}"
+		COMMAND /bin/bash ARGS "${CMAKE_CURRENT_SOURCE_DIR}/generate-test-master.bash" "${BASH_TEST_MASTER_FILE}" "${BIB2WEB_SHUNIT2}" "${CMAKE_CURRENT_SOURCE_DIR}/../src" "${BASH_TEST_FILES}"
 		DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/generate-test-master.bash" "${BASH_TEST_FILES}")
 
 	# Add the target for running the tests
@@ -29,4 +20,15 @@ else()
 
 	add_dependencies(test bash-test)
 
+endif()
+
+if(BIB2WEB_SHELLCHECK_EXISTS)
+	# Add the target for linting the test files
+	add_custom_target(bash-test-lint)
+	add_custom_command(
+		TARGET bash-test-lint
+		COMMAND shellcheck ARGS "-x" ${BASH_TEST_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/generate-test-master.bash"
+		WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+
+	add_dependencies(bash-lint bash-test-lint)
 endif()
