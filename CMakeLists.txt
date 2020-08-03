@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17.3)
+cmake_minimum_required(VERSION 3.17.0)
 project(bib2web)
 
 include(cmake/shell-tools.cmake)
