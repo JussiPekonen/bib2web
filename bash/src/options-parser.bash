@@ -9,13 +9,14 @@ source "${BIB2WEB_BASE_DIR}/error-codes.bash"
 
 # Function to print out the help of the script
 printHelp() {
-	local scriptName=$(basename $0)
-	printf "${scriptName}: Tool for converting a BibTeX file to a format that can be released online\n\n"
-	printf "Usage: ${scriptName} [-h|--help] [-f|--format format] [-v|--verbose] file\n\n"
+	local scriptName
+	scriptName=$(basename "$0")
+	printf "%s: Tool for converting a BibTeX file to a format that can be released online\n\n" "${scriptName}"
+	printf "Usage: %s [-h|--help] [-f|--format format] [-v|--verbose] file\n\n" "${scriptName}"
 	printf "Options:\n"
 	printf "  -h\t\t--help\t\tPrints this help text and exits.\n"
-	printf "  -f format\t--format format\tSets the output format. Supported formats: ${BIB2WEB_SUPPORTED_OUTPUT_FORMATS}.\n"
-	printf "\t\t\t\tDefault: ${BIB2WEB_DEFAULT_OUTPUT_FORMAT}. Unsupported formats are reverted to the default.\n"
+	printf "  -f format\t--format format\tSets the output format. Supported formats: %s.\n" "${BIB2WEB_SUPPORTED_OUTPUT_FORMATS}"
+	printf "\t\t\t\tDefault: %s. Unsupported formats are reverted to the default.\n" "${BIB2WEB_DEFAULT_OUTPUT_FORMAT}"
 	printf "  -v\t\t--verbose\tVerbose mode. Prints details of the script run to standard output.\n"
 	printf "  file\t\t\t\tThe BibTeX file to be used as the input.\n"
 	exit 0
