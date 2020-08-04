@@ -5,13 +5,14 @@ on:
       - 'bash/*'
 
 jobs:
-  build:
-    name: Bash-lint
+  bash-checks:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v2
       - name: setup
-        run: cmake . -Bout
+        run: git clone https://github.com/kward/shunit2.git shunit2; export PATH="$(pwd)/shunit2:${PATH}"; cmake . -Bout
       - name: lint
         run: make -Cout bash-lint
+      - name: test
+        run: make -Cout bash-test
