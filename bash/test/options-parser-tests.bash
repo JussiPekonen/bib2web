@@ -1,7 +1,17 @@
 #!/bin/bash
 
+#shellcheck source=../src/preprocessor.bash
+source "${SOURCE_DIRECTORY}/preprocessor.bash"
 #shellcheck source=../src/options-parser.bash
 source "${SOURCE_DIRECTORY}/options-parser.bash"
+
+setUp() {
+	setupTools
+	local result="$?"
+	if [ "${result}" -gt 0 ]; then
+		fail "Could not set up the tools!"
+	fi
+}
 
 testParseOptionsNoParametersGiven() {
 	parseOptions

@@ -1,6 +1,7 @@
 # The individual test files
 set(BASH_TEST_FILES
-	${CMAKE_CURRENT_SOURCE_DIR}/option-parsing.bash
+	"${CMAKE_CURRENT_SOURCE_DIR}/preprocessor-tests.bash"
+	"${CMAKE_CURRENT_SOURCE_DIR}/options-parser-tests.bash"
 )
 
 if(BIB2WEB_SHUNIT2_EXISTS)
@@ -8,7 +9,7 @@ if(BIB2WEB_SHUNIT2_EXISTS)
 	set(BASH_TEST_MASTER_FILE "${CMAKE_CURRENT_BINARY_DIR}/.bash-test.sh")
 	add_custom_command(
 		OUTPUT "${BASH_TEST_MASTER_FILE}"
-		COMMAND /bin/bash ARGS "${CMAKE_CURRENT_SOURCE_DIR}/generate-test-master.bash" "${BASH_TEST_MASTER_FILE}" "${BIB2WEB_SHUNIT2}" "${CMAKE_CURRENT_SOURCE_DIR}/../src" "${BASH_TEST_FILES}"
+		COMMAND /bin/bash ARGS "${CMAKE_CURRENT_SOURCE_DIR}/generate-test-master.bash" "${BASH_TEST_MASTER_FILE}" "${BIB2WEB_SHUNIT2}" "${CMAKE_CURRENT_SOURCE_DIR}/../src" ${BASH_TEST_FILES}
 		DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/generate-test-master.bash" "${BASH_TEST_FILES}")
 
 	# Add the target for running the tests
@@ -27,7 +28,7 @@ if(BIB2WEB_SHELLCHECK_EXISTS)
 	add_custom_target(bash-test-lint)
 	add_custom_command(
 		TARGET bash-test-lint
-		COMMAND shellcheck ARGS "-x" ${BASH_TEST_FILES} "${CMAKE_CURRENT_SOURCE_DIR}/generate-test-master.bash"
+		COMMAND shellcheck ARGS "-x" "${CMAKE_CURRENT_SOURCE_DIR}/generate-test-master.bash" ${BASH_TEST_FILES}
 		WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 
 	add_dependencies(bash-lint bash-test-lint)
