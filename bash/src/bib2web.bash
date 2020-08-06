@@ -17,13 +17,20 @@ checkResultAndAbortIfNeeded() {
 
 main() {
 	# Set up tools
-	setupTools
+	setUpTools
 	checkResultAndAbortIfNeeded "$?"
 
 	# Parse user's options
 	parseOptions "$@"
 	optionsSanityCheck
 	checkResultAndAbortIfNeeded "$?"
+
+	# Set up temporary directory and relevant files
+	setUpFiles
+	checkResultAndAbortIfNeeded "$?"
+
+	# Clean up the temporary directory
+	cleanUp
 }
 
 main "$@"

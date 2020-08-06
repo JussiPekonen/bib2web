@@ -6,7 +6,7 @@ source "${SOURCE_DIRECTORY}/preprocessor.bash"
 source "${SOURCE_DIRECTORY}/options-parser.bash"
 
 setUp() {
-	setupTools
+	setUpTools
 	local result="$?"
 	if [ "${result}" -gt 0 ]; then
 		fail "Could not set up the tools!"

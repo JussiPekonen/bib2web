@@ -6,6 +6,12 @@ export BIB2WEB_VERSION="%BIB2WEB_VERSION%"
 # Shell tools used by the script
 export BIB2WEB_GREP
 export BIB2WEB_AWK
+export BIB2WEB_MKTEMP
+export BIB2WEB_RM
+export BIB2WEB_TOUCH
+
+# Temporary directory and files
+export BIB2WEB_TMP_DIR
 
 # Constant variables used by option parsing
 export BIB2WEB_OUTPUT_FORMAT_HTML="html"
@@ -17,3 +23,4 @@ export BIB2WEB_DEFAULT_OUTPUT_FORMAT="${BIB2WEB_OUTPUT_FORMAT_HTML}"
 export BIB2WEB_BIBTEX_FILE=""
 export BIB2WEB_OUTPUT_FORMAT="${BIB2WEB_DEFAULT_OUTPUT_FORMAT}"
 export BIB2WEB_VERBOSE=""
+export BIB2WEB_LOG_FILE="bib2web.log"
