@@ -43,6 +43,18 @@ testParseOptionsFormatWithLongNotation() {
 	assertEquals "${testFormat}" "${BIB2WEB_OUTPUT_FORMAT}"
 }
 
+testParseOptionsLogFileWithShortNotation() {
+	local testFile="foo"
+	parseOptions "-l" "${testFile}"
+	assertEquals "${testFile}" "${BIB2WEB_LOG_FILE}"
+}
+
+testParseOptionsLogFileWithLongNotation() {
+	local testFile="foo"
+	parseOptions "--log" "${testFile}"
+	assertEquals "${testFile}" "${BIB2WEB_LOG_FILE}"
+}
+
 testOptionsSanityCheckBibTeXFileNotSet() {
 	BIB2WEB_BIBTEX_FILE=""
 	optionsSanityCheck 2> /dev/null

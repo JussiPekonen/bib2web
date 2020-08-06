@@ -17,10 +17,11 @@ printHelp() {
 	printf "  file\t\t\t\tThe BibTeX file to be used as the input.\n\n"
 	printf "Options:\n"
 	printf "  -h\t\t--help\t\tPrints this help text and exits.\n"
+	printf "  --version\t\t\tPrints the version of the tool and exits.\n"
 	printf "  -f format\t--format format\tSets the output format. Supported formats: %s.\n" "${BIB2WEB_SUPPORTED_OUTPUT_FORMATS}"
 	printf "\t\t\t\tDefault: %s. Unsupported formats are reverted to the default.\n" "${BIB2WEB_DEFAULT_OUTPUT_FORMAT}"
+	printf "  -l logfile\t--log logfile\tSets the log file. Default: %s.\n" "${BIB2WEB_DEFAULT_LOG_FILE}"
 	printf "  -v\t\t--verbose\tVerbose mode. Prints details of the tool run to standard output.\n"
-	printf "  --version\t\t\tPrints the version of the tool and exits.\n"
 }
 
 # Function to print out the version of the script
@@ -42,6 +43,11 @@ parseOptions() {
 				-h|--help)
 					printHelp
 					exit 0
+					;;
+				-l|--log)
+					shift
+					BIB2WEB_LOG_FILE="$1"
+					shift
 					;;
 				-v|--verbose)
 					BIB2WEB_VERBOSE="true"
@@ -70,7 +76,7 @@ optionsSanityCheck() {
 	local fileType
 	fileType=$(file "${BIB2WEB_BIBTEX_FILE}" | "${BIB2WEB_GREP}" "BibTeX")
 	if [ "${fileType}" == "" ]; then
-		error "The given file is not a BibTeX file!"
+		error "The given file (${BIB2WEB_BIBTEX_FILE}) is not a BibTeX file!"
 		return "${BIB2WEB_NOT_BIBTEX_FILE}"
 	fi
 	case "${BIB2WEB_OUTPUT_FORMAT}" in
@@ -81,7 +87,10 @@ optionsSanityCheck() {
 			BIB2WEB_OUTPUT_FORMAT="${BIB2WEB_DEFAULT_OUTPUT_FORMAT}"
 			;;
 	esac
+	verbose "$(printVersion)"
+	verbose "${BIB2WEB_LOG_SEPARATOR}"
 	verbose "BibTeXFile: ${BIB2WEB_BIBTEX_FILE}"
 	verbose "Output format: ${BIB2WEB_OUTPUT_FORMAT}"
+	verbose "${BIB2WEB_LOG_SEPARATOR}"
 	return 0
 }
