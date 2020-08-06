@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Version, automagically set by the build system
+export BIB2WEB_VERSION="%BIB2WEB_VERSION%"
+
 # Shell tools used by the script
 export BIB2WEB_GREP
 export BIB2WEB_AWK

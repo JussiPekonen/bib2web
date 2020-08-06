@@ -11,15 +11,23 @@ source "${BIB2WEB_BASE_DIR}/error-codes.bash"
 printHelp() {
 	local scriptName
 	scriptName=$(basename "$0")
-	printf "%s: Tool for converting a BibTeX file to a format that can be released online\n\n" "${scriptName}"
-	printf "Usage: %s [-h|--help] [-f|--format format] [-v|--verbose] file\n\n" "${scriptName}"
+	printf "%s, version %s: A tool for converting a BibTeX file to a format that can be released online\n\n" "${scriptName}" "${BIB2WEB_VERSION}"
+	printf "Usage: %s [OPTIONS] file\n\n" "${scriptName}"
+	printf "Arguments:\n"
+	printf "  file\t\t\t\tThe BibTeX file to be used as the input.\n\n"
 	printf "Options:\n"
 	printf "  -h\t\t--help\t\tPrints this help text and exits.\n"
 	printf "  -f format\t--format format\tSets the output format. Supported formats: %s.\n" "${BIB2WEB_SUPPORTED_OUTPUT_FORMATS}"
 	printf "\t\t\t\tDefault: %s. Unsupported formats are reverted to the default.\n" "${BIB2WEB_DEFAULT_OUTPUT_FORMAT}"
-	printf "  -v\t\t--verbose\tVerbose mode. Prints details of the script run to standard output.\n"
-	printf "  file\t\t\t\tThe BibTeX file to be used as the input.\n"
-	exit 0
+	printf "  -v\t\t--verbose\tVerbose mode. Prints details of the tool run to standard output.\n"
+	printf "  --version\t\t\tPrints the version of the tool and exits.\n"
+}
+
+# Function to print out the version of the script
+printVersion() {
+	local scriptName
+	scriptName=$(basename "$0")
+	printf "%s, version %s\n" "${scriptName}" "${BIB2WEB_VERSION}"
 }
 
 # Function to parse the user's options
@@ -33,10 +41,15 @@ parseOptions() {
 					;;
 				-h|--help)
 					printHelp
+					exit 0
 					;;
 				-v|--verbose)
 					BIB2WEB_VERBOSE="true"
 					shift
+					;;
+				--version)
+					printVersion
+					exit 0
 					;;
 				*)
 					if [ "${BIB2WEB_BIBTEX_FILE}" == "" ]; then
