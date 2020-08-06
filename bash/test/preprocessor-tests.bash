@@ -4,9 +4,8 @@
 source "${SOURCE_DIRECTORY}/preprocessor.bash"
 
 tearDown() {
-	if [ -e "${BIB2WEB_TMP_DIR}" ]; then
-		rm -rf "${BIB2WEB_TMP_DIR}"
-	fi
+	# Call the clean up again, just in case
+	cleanUp
 	if [ -e "${BIB2WEB_LOG_FILE}" ]; then
 		rm -f "${BIB2WEB_LOG_FILE}"
 	fi

@@ -9,6 +9,7 @@ export BIB2WEB_AWK
 export BIB2WEB_MKTEMP
 export BIB2WEB_RM
 export BIB2WEB_TOUCH
+export BIB2WEB_CAT
 
 # Temporary directory and files
 export BIB2WEB_TMP_DIR

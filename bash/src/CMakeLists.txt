@@ -2,10 +2,11 @@
 set(BASH_SRC_FILES
 	"${CMAKE_CURRENT_SOURCE_DIR}/bib2web.bash"
 	"${CMAKE_CURRENT_SOURCE_DIR}/parameters.bash.in"
-	"${CMAKE_CURRENT_SOURCE_DIR}/preprocessor.bash"
 	"${CMAKE_CURRENT_SOURCE_DIR}/logger.bash"
 	"${CMAKE_CURRENT_SOURCE_DIR}/error-codes.bash"
+	"${CMAKE_CURRENT_SOURCE_DIR}/preprocessor.bash"
 	"${CMAKE_CURRENT_SOURCE_DIR}/options-parser.bash"
+	"${CMAKE_CURRENT_SOURCE_DIR}/input-processor.bash"
 	)
 
 # Set the Bash tool version

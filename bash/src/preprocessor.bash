@@ -44,6 +44,13 @@ setUpTools() {
 		printError "touch not found!"
 		return "${BIB2WEB_TOUCH_NOT_FOUND}"
 	fi
+	# cat
+	BIB2WEB_CAT=$(which cat)
+	local catResult="$?"
+	if [ "${catResult}" -gt 0 ]; then
+		printError "cat not found!"
+		return "${BIB2WEB_CAT_NOT_FOUND}"
+	fi
 	return 0
 }
 

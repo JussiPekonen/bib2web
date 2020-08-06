@@ -6,21 +6,18 @@ BIB2WEB_BASE_DIR=$(dirname "$0")
 source "${BIB2WEB_BASE_DIR}/preprocessor.bash"
 # shellcheck source=./options-parser.bash
 source "${BIB2WEB_BASE_DIR}/options-parser.bash"
+# shellcheck source=./input-processor.bash
+source "${BIB2WEB_BASE_DIR}/input-processor.bash"
 
 checkResultAndAbortIfNeeded() {
 	local result="$1"
+	if [ "${BIB2WEB_TMP_DIR}" ] && [ -e "${BIB2WEB_TMP_DIR}" ]; then
+		cleanUp
+	fi
 	if [ "${result}" -gt 0 ]; then
 		echo "Aborting..." >&2
 		exit "${result}"
 	fi
-}
-
-printDetails() {
-	verbose "$(printVersion)"
-	verbose "${BIB2WEB_LOG_SEPARATOR}"
-	verbose "BibTeXFile: ${BIB2WEB_BIBTEX_FILE}"
-	verbose "Output format: ${BIB2WEB_OUTPUT_FORMAT}"
-	verbose "${BIB2WEB_LOG_SEPARATOR}"
 }
 
 main() {
@@ -37,7 +34,9 @@ main() {
 	setUpFiles
 	checkResultAndAbortIfNeeded "$?"
 
-	printDetails
+	# Process the input file
+	processInputFile
+	checkResultAndAbortIfNeeded "$?"
 
 	# Clean up the temporary directory
 	cleanUp
