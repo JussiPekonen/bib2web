@@ -70,27 +70,22 @@ parseOptions() {
 # Function to do some final sanity checking for the options the user gives
 optionsSanityCheck() {
 	if [ "${BIB2WEB_BIBTEX_FILE}" == "" ]; then
-		error "You must specify the BibTeX file as an argument!"
+		printError "You must specify the BibTeX file as an argument!"
 		return "${BIB2WEB_MISSING_BIBTEX_FILE}"
 	fi
 	local fileType
 	fileType=$(file "${BIB2WEB_BIBTEX_FILE}" | "${BIB2WEB_GREP}" "BibTeX")
 	if [ "${fileType}" == "" ]; then
-		error "The given file (${BIB2WEB_BIBTEX_FILE}) is not a BibTeX file!"
+		printError "The given file (${BIB2WEB_BIBTEX_FILE}) is not a BibTeX file!"
 		return "${BIB2WEB_NOT_BIBTEX_FILE}"
 	fi
 	case "${BIB2WEB_OUTPUT_FORMAT}" in
 		"${BIB2WEB_OUTPUT_FORMAT_HTML}"|"${BIB2WEB_OUTPUT_FORMAT_JSON}")
 			;;
 		*)
-			warning "Unsupported output format. Reverting to ${BIB2WEB_DEFAULT_OUTPUT_FORMAT}."
+			printWarning "Unsupported output format. Reverting to ${BIB2WEB_DEFAULT_OUTPUT_FORMAT}."
 			BIB2WEB_OUTPUT_FORMAT="${BIB2WEB_DEFAULT_OUTPUT_FORMAT}"
 			;;
 	esac
-	verbose "$(printVersion)"
-	verbose "${BIB2WEB_LOG_SEPARATOR}"
-	verbose "BibTeXFile: ${BIB2WEB_BIBTEX_FILE}"
-	verbose "Output format: ${BIB2WEB_OUTPUT_FORMAT}"
-	verbose "${BIB2WEB_LOG_SEPARATOR}"
 	return 0
 }

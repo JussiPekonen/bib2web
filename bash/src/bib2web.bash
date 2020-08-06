@@ -15,6 +15,14 @@ checkResultAndAbortIfNeeded() {
 	fi
 }
 
+printDetails() {
+	verbose "$(printVersion)"
+	verbose "${BIB2WEB_LOG_SEPARATOR}"
+	verbose "BibTeXFile: ${BIB2WEB_BIBTEX_FILE}"
+	verbose "Output format: ${BIB2WEB_OUTPUT_FORMAT}"
+	verbose "${BIB2WEB_LOG_SEPARATOR}"
+}
+
 main() {
 	# Set up tools
 	setUpTools
@@ -28,6 +36,8 @@ main() {
 	# Set up temporary directory and relevant files
 	setUpFiles
 	checkResultAndAbortIfNeeded "$?"
+
+	printDetails
 
 	# Clean up the temporary directory
 	cleanUp
