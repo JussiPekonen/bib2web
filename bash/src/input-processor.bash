@@ -5,22 +5,13 @@ source "${BIB2WEB_BASE_DIR}/parameters.bash"
 # shellcheck source=./logger.bash
 source "${BIB2WEB_BASE_DIR}/logger.bash"
 
-logOptions() {
-	verbose "$(printVersion)"
-	verbose "${BIB2WEB_LOG_SEPARATOR}"
-	verbose "BibTeXFile: ${BIB2WEB_BIBTEX_FILE}"
-	verbose "Output format: ${BIB2WEB_OUTPUT_FORMAT}"
-	verbose "Log file: ${BIB2WEB_LOG_FILE}"
-	vverbose "Verbosity level: ${BIB2WEB_VERBOSE}"
-	verbose "${BIB2WEB_LOG_SEPARATOR}"
-}
-
 parseInputFile() {
 	"${BIB2WEB_CAT}" "${BIB2WEB_BIBTEX_FILE}"
 }
 
 generateEntrySplitterFile() {
-	"${BIB2WEB_CAT}" <<EOF > "${BIB2WEB_TMP_DIR}/splitter.awk"
+	local splitterFile="$1"
+	"${BIB2WEB_CAT}" <<EOF > "${BIB2WEB_TMP_DIR}/${splitterFile}"
 BEGIN {
 	data = ""
 	file = ""
@@ -41,22 +32,33 @@ END {
 	print data > file
 }
 EOF
+	vvverbose "Splitter file created!"
 }
 
 splitEntries() {
-	"${BIB2WEB_AWK}" -f "${BIB2WEB_TMP_DIR}/splitter.awk" "${BIB2WEB_BIBTEX_FILE}" 2> "${BIB2WEB_LOG_FILE}"
-	return "$?"
+	local splitterFile="$1"
+	local output=
+	output=$("${BIB2WEB_AWK}" -f "${BIB2WEB_TMP_DIR}/${splitterFile}" "${BIB2WEB_BIBTEX_FILE}" 2>&1)
+	local result="$?"
+	vvverbose "Splitter result: ${result}"
+	if [ "${result}" -gt "0" ]; then
+		vvverbose "Splitter error:"
+		vvverbose "${output}"
+	fi
+	return "${result}"
 }
 
 processInputFile() {
-	logOptions
-	verbose "Splitting the input BibTeX file into individual entries..."
-	generateEntrySplitterFile
-	splitEntries
+	verbose "Processing the input file..."
+	vverbose "Splitting the input BibTeX file into individual entries..."
+	local splitterFile="splitter.awk"
+	generateEntrySplitterFile "${splitterFile}"
+	splitEntries "${splitterFile}"
 	local splitResult="$?"
 	if [ "${splitResult}" -gt "0" ]; then
 		error "Could not process the contents of ${BIB2WEB_BIBTEX_FILE}!"
 		return "${BIB2WEB_CANNOT_PROCESS_BIBTEX_FILE}"
 	fi
-	verbose "Input processing completed!"
+	vverbose "Input processing completed!"
+	verbose "${BIB2WEB_LOG_SEPARATOR}"
 }

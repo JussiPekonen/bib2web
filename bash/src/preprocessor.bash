@@ -111,4 +111,5 @@ setUpFiles() {
 # Clean-up
 cleanUp() {
 	"${BIB2WEB_RM}" -rf "${BIB2WEB_TMP_DIR}"
+	verbose "Done!"
 }

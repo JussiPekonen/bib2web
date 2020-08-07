@@ -3,13 +3,6 @@
 # shellcheck source=./parameters.bash
 source "${BIB2WEB_BASE_DIR}/parameters.bash"
 
-# Function to print out the version of the script
-printVersion() {
-	local scriptName
-	scriptName=$(basename "$0")
-	printf "%s, version %s\n" "${scriptName}" "${BIB2WEB_VERSION}"
-}
-
 BIB2WEB_ERROR_MESSAGE=""
 BIB2WEB_WARNING_MESSAGE=""
 
