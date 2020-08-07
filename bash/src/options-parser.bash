@@ -37,7 +37,7 @@ parseOptions() {
 		case "$1" in
 				-f|--format)
 					shift
-					BIB2WEB_OUTPUT_FORMAT=$(echo "$1" | "${BIB2WEB_AWK}" -f "${BIB2WEB_BASE_DIR}/awk/tolower.awk")
+					BIB2WEB_OUTPUT_FORMAT=$(echo "$1" | "${BIB2WEB_AWK}" "{ print tolower(\$0) }")
 					shift
 					;;
 				-h|--help)
