@@ -11,12 +11,15 @@ setUp() {
 	if [ "${result}" -gt 0 ]; then
 		fail "Could not set up the tools!"
 	fi
+	BIB2WEB_VERBOSE="0"
 }
 
 testParseOptionsNoParametersGiven() {
 	parseOptions
 	assertEquals "" "${BIB2WEB_BIBTEX_FILE}"
-	assertEquals "html" "${BIB2WEB_OUTPUT_FORMAT}"
+	assertEquals "${BIB2WEB_DEFAULT_OUTPUT_FORMAT}" "${BIB2WEB_OUTPUT_FORMAT}"
+	assertEquals "" "${BIB2WEB_OUTPUT_FILE}"
+	assertEquals "${BIB2WEB_DEFAULT_LOG_FILE}" "${BIB2WEB_LOG_FILE}"
 }
 
 testParseOptionsBibTeXFileGiven() {
@@ -41,6 +44,18 @@ testParseOptionsFormatWithLongNotation() {
 	local testFormat="foo"
 	parseOptions "--format" "${testFormat}"
 	assertEquals "${testFormat}" "${BIB2WEB_OUTPUT_FORMAT}"
+}
+
+testParseOptionsOutputWithShortNotation() {
+	local testFile="foo"
+	parseOptions "-o" "${testFile}"
+	assertEquals "${testFile}" "${BIB2WEB_OUTPUT_FILE}"
+}
+
+testParseOptionsOutputWithLongNotation() {
+	local testFile="foo"
+	parseOptions "--output" "${testFile}"
+	assertEquals "${testFile}" "${BIB2WEB_OUTPUT_FILE}"
 }
 
 testParseOptionsLogFileWithShortNotation() {
@@ -119,4 +134,21 @@ testOptionsSanityCheckBibTeXFileSetUnsupportedFormatRevertsToHtml() {
 	optionsSanityCheck 2> /dev/null
 	assertEquals "$?" "0"
 	assertEquals "${BIB2WEB_OUTPUT_FORMAT_HTML}" "${BIB2WEB_OUTPUT_FORMAT}"
+}
+
+testOptionsSanityCheckNoOutputFileIsGiven() {
+	BIB2WEB_BIBTEX_FILE="${SOURCE_DIRECTORY}/../../testdata/article/minimum.bib"
+	BIB2WEB_OUTPUT_FILE=""
+	optionsSanityCheck
+	assertEquals "$?" "0"
+	assertEquals "${BIB2WEB_OUTPUT_FILE_DEFAULT_PREFIX}.${BIB2WEB_OUTPUT_FORMAT}" "${BIB2WEB_OUTPUT_FILE}"
+}
+
+testOptionsSanityCheckNoOutputFileGivenDoesNotChange() {
+	BIB2WEB_BIBTEX_FILE="${SOURCE_DIRECTORY}/../../testdata/article/minimum.bib"
+	local testFile="foo"
+	BIB2WEB_OUTPUT_FILE="${testFile}"
+	optionsSanityCheck
+	assertEquals "$?" "0"
+	assertEquals "${testFile}" "${BIB2WEB_OUTPUT_FILE}"
 }

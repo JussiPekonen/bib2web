@@ -27,6 +27,7 @@ printHelp() {
 	printf "  --version\t\t\tPrints the version of the tool and exits.\n"
 	printf "  -f format\t--format format\tSets the output format. Supported formats: %s.\n" "${BIB2WEB_SUPPORTED_OUTPUT_FORMATS}"
 	printf "\t\t\t\tDefault: %s. Unsupported formats are reverted to the default.\n" "${BIB2WEB_DEFAULT_OUTPUT_FORMAT}"
+	printf "  -o output\t--output output\tSets the output file. Default: %s.{format}\n" "${BIB2WEB_OUTPUT_FILE_DEFAULT_PREFIX}"
 	printf "  -l logfile\t--log logfile\tSets the log file. Default: %s.\n" "${BIB2WEB_DEFAULT_LOG_FILE}"
 	printf "  -v\t\t--verbose\tVerbose mode. Prints details of the tool run to standard output.\n"
 	printf "  -vv\t\t--vverbose\tHigher verbose mode. Script internal variable values are printed out.\n"
@@ -49,6 +50,11 @@ parseOptions() {
 				-l|--log)
 					shift
 					BIB2WEB_LOG_FILE="$1"
+					shift
+					;;
+				-o|--output)
+					shift
+					BIB2WEB_OUTPUT_FILE="$1"
 					shift
 					;;
 				-v|--verbose)
@@ -85,6 +91,7 @@ logOptions() {
 	verbose "${BIB2WEB_LOG_SEPARATOR}"
 	verbose "BibTeX file: ${BIB2WEB_BIBTEX_FILE}"
 	verbose "Output format: ${BIB2WEB_OUTPUT_FORMAT}"
+	verbose "Output file: ${BIB2WEB_OUTPUT_FILE}"
 	verbose "Log file: ${BIB2WEB_LOG_FILE}"
 	verbose "Verbosity level: ${BIB2WEB_VERBOSE}"
 	verbose "${BIB2WEB_LOG_SEPARATOR}"
@@ -110,6 +117,9 @@ optionsSanityCheck() {
 			BIB2WEB_OUTPUT_FORMAT="${BIB2WEB_DEFAULT_OUTPUT_FORMAT}"
 			;;
 	esac
+	if [ ! "${BIB2WEB_OUTPUT_FILE}" ]; then
+		BIB2WEB_OUTPUT_FILE="${BIB2WEB_OUTPUT_FILE_DEFAULT_PREFIX}.${BIB2WEB_OUTPUT_FORMAT}"
+	fi
 	logOptions
 	return 0
 }
