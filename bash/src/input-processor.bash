@@ -42,22 +42,19 @@ EOF
 }
 
 splitEntries() {
-	local filecontent="$1"
-	echo "${filecontent}" | "${BIB2WEB_AWK}" -f "${BIB2WEB_TMP_DIR}/splitter.awk"
+	"${BIB2WEB_AWK}" -f "${BIB2WEB_TMP_DIR}/splitter.awk" "${BIB2WEB_BIBTEX_FILE}" 2> "${BIB2WEB_LOG_FILE}"
+	return "$?"
 }
 
 processInputFile() {
 	logOptions
-	verbose "Consuming the input file..."
-	local content
-	content=$(parseInputFile)
-	local contentParsingResult="$?"
-	if [ "${contentParsingResult}" -gt 0 ]; then
-		error "Could not read the contents of ${BIB2WEB_BIBTEX_FILE}!"
-		return "${BIB2WEB_CANNOT_READ_BIBTEX_FILE}"
-	fi
-	verbose "Splitting the data into individual entries..."
+	verbose "Splitting the input BibTeX file into individual entries..."
 	generateEntrySplitterFile
-	splitEntries "${content}"
+	splitEntries
+	local splitResult="$?"
+	if [ "${splitResult}" -gt "0" ]; then
+		error "Could not process the contents of ${BIB2WEB_BIBTEX_FILE}!"
+		return "${BIB2WEB_CANNOT_PROCESS_BIBTEX_FILE}"
+	fi
 	verbose "Input processing completed!"
 }
