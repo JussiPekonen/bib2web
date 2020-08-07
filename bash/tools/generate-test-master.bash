@@ -21,6 +21,9 @@ cat <<EOF > "${awkFile}"
 	print \$0
 	print "\nSOURCE_DIRECTORY=${sourceDir}"
 	print "BIB2WEB_BASE_DIR=${sourceDir}\n"
+	print "oneTimeSetUp() {"
+	print "\tprintf \"\nRunning tests from %FILE%...\n\""
+	print "}"
 }
 /^[^#!]/ {
 	print \$0
@@ -32,6 +35,7 @@ EOF
 echo "#!/bin/bash" > "${testFile}"
 for file in "$@"; do
 	filebase=$(basename "${file}")
-	awk -f "${awkFile}" "${testDir}/${filebase}" > "${outDir}/${filebase}"
+	echo "s/\%FILE\%/${filebase}/" > "${outDir}/${filebase}.sed"
+	awk -f "${awkFile}" "${testDir}/${filebase}" | sed -f "${outDir}/${filebase}.sed" > "${outDir}/${filebase}"
 	echo "/bin/bash ${outDir}/${filebase}" >> "${testFile}"
 done
