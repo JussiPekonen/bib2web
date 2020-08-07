@@ -11,11 +11,11 @@ source "${BIB2WEB_BASE_DIR}/input-processor.bash"
 
 checkResultAndAbortIfNeeded() {
 	local result="$1"
-	if [ "${BIB2WEB_TMP_DIR}" ] && [ -e "${BIB2WEB_TMP_DIR}" ]; then
-		cleanUp
-	fi
 	if [ "${result}" -gt 0 ]; then
 		echo "Aborting..." >&2
+		if [ "${BIB2WEB_TMP_DIR}" ] && [ -e "${BIB2WEB_TMP_DIR}" ]; then
+			cleanUp
+		fi
 		exit "${result}"
 	fi
 }
