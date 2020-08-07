@@ -7,45 +7,79 @@ source "${BIB2WEB_BASE_DIR}/logger.bash"
 # shellcheck source=./error-codes.bash
 source "${BIB2WEB_BASE_DIR}/error-codes.bash"
 
+getToolFinder() {
+	local toolPath
+	local toolResult
+	# Try which
+	toolPath=$(which which)
+	toolResult="$?"
+	if [ "${toolResult}" == "0" ] && [ "${toolPath}" != "" ]; then
+		echo "which"
+		return 0
+	fi
+	# Try whereis
+	toolPath=$(whereis whereis)
+	toolResult="$?"
+	if [ "${toolResult}" == "0" ] && [ "${toolPath}" != "" ]; then
+		echo "whereis"
+		return 0
+	fi
+	# Try locate
+	toolPath=$(locate locate)
+	toolResult="$?"
+	if [ "${toolResult}" == "0" ] && [ "${toolPath}" != "" ]; then
+		echo "locate"
+		return 0
+	fi
+	return "${BIB2WEB_TOOL_FINDER_NOT_FOUND}"
+}
+
 # Set up tools
 setUpTools() {
+	local toolFinder
+	toolFinder=$(getToolFinder)
+	local toolFinderResult="$?"
+	if [ "${toolFinderResult}" -gt "0" ]; then
+		printError "No tool finder tool available!"
+		return "${toolFinderResult}"
+	fi
 	# grep
-	BIB2WEB_GREP=$(which grep)
+	BIB2WEB_GREP=$("${toolFinder}" "grep")
 	local grepResult="$?"
 	if [ "${grepResult}" -gt 0 ]; then
 		printError "grep not found!"
 		return "${BIB2WEB_GREP_NOT_FOUND}"
 	fi
 	# awk
-	BIB2WEB_AWK=$(which awk)
+	BIB2WEB_AWK=$("${toolFinder}" "awk")
 	local awkResult="$?"
 	if [ "${awkResult}" -gt 0 ]; then
 		printError "awk not found!"
 		return "${BIB2WEB_AWK_NOT_FOUND}"
 	fi
 	# mktemp
-	BIB2WEB_MKTEMP=$(which mktemp)
+	BIB2WEB_MKTEMP=$("${toolFinder}" "mktemp")
 	local mktempResult="$?"
 	if [ "${mktempResult}" -gt 0 ]; then
 		printError "mktemp not found!"
 		return "${BIB2WEB_MKTEMP_NOT_FOUND}"
 	fi
 	# rm
-	BIB2WEB_RM=$(which rm)
+	BIB2WEB_RM=$("${toolFinder}" "rm")
 	local rmResult="$?"
 	if [ "${rmResult}" -gt 0 ]; then
 		printError "rm not found!"
 		return "${BIB2WEB_RM_NOT_FOUND}"
 	fi
 	# touch
-	BIB2WEB_TOUCH=$(which touch)
+	BIB2WEB_TOUCH=$("${toolFinder}" "touch")
 	local touchResult="$?"
 	if [ "${touchResult}" -gt 0 ]; then
 		printError "touch not found!"
 		return "${BIB2WEB_TOUCH_NOT_FOUND}"
 	fi
 	# cat
-	BIB2WEB_CAT=$(which cat)
+	BIB2WEB_CAT=$("${toolFinder}" "cat")
 	local catResult="$?"
 	if [ "${catResult}" -gt 0 ]; then
 		printError "cat not found!"
