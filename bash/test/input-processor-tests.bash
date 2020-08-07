@@ -26,7 +26,7 @@ testSplittingInputFileWithOnlyOneEntryResultsInASingleFile() {
 	BIB2WEB_BIBTEX_FILE="${SOURCE_DIRECTORY}/../../testdata/article/minimum.bib"
 	processInputFile
 	local numberOfSplitEntries
-	numberOfSplitEntries=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib" | wc -l | sed 's/ //g')
+	numberOfSplitEntries=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib" | grep -c ".bib")
 	assertEquals "1" "${numberOfSplitEntries}"
 }
 
@@ -34,7 +34,7 @@ testSplittingInputFileWithOnlyMoreThanOneEntryResultsInMultipleFile() {
 	BIB2WEB_BIBTEX_FILE="${SOURCE_DIRECTORY}/../../testdata/combined.bib"
 	processInputFile
 	local numberOfSplitEntries
-	numberOfSplitEntries=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib" | wc -l | sed 's/ //g')
+	numberOfSplitEntries=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib" | grep -c ".bib")
 	local expectedNumberOfEntries
 	expectedNumberOfEntries=$(grep -c "^@" "${BIB2WEB_BIBTEX_FILE}")
 	assertNotEquals "1" "${numberOfSplitEntries}"

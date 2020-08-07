@@ -1,8 +1,8 @@
 # The individual test files
 set(BASH_TEST_FILES
-	"${CMAKE_CURRENT_SOURCE_DIR}/options-parser-tests.bash"
-	"${CMAKE_CURRENT_SOURCE_DIR}/preprocessor-tests.bash"
-	"${CMAKE_CURRENT_SOURCE_DIR}/input-processor-tests.bash"
+	preprocessor-tests.bash
+	options-parser-tests.bash
+	input-processor-tests.bash
 )
 
 # Add target for running the tests, if possible
@@ -11,7 +11,7 @@ if(BIB2WEB_SHUNIT2_EXISTS)
 	set(BASH_TEST_MASTER_FILE "${CMAKE_CURRENT_BINARY_DIR}/.bash-test.sh")
 	add_custom_command(
 		OUTPUT "${BASH_TEST_MASTER_FILE}"
-		COMMAND /bin/bash ARGS "${CMAKE_CURRENT_SOURCE_DIR}/generate-test-master.bash" "${BASH_TEST_MASTER_FILE}" "${BIB2WEB_SHUNIT2}" "${CMAKE_CURRENT_SOURCE_DIR}/../src" ${BASH_TEST_FILES}
+		COMMAND /bin/bash ARGS "${CMAKE_CURRENT_SOURCE_DIR}/generate-test-master.bash" "${CMAKE_CURRENT_SOURCE_DIR}/../src" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}" "${BIB2WEB_SHUNIT2}" "${BASH_TEST_MASTER_FILE}" ${BASH_TEST_FILES}
 		DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/generate-test-master.bash" "${BASH_TEST_FILES}")
 
 	add_custom_target(bash-test

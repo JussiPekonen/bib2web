@@ -24,13 +24,6 @@ printHelp() {
 	printf "  -v\t\t--verbose\tVerbose mode. Prints details of the tool run to standard output.\n"
 }
 
-# Function to print out the version of the script
-printVersion() {
-	local scriptName
-	scriptName=$(basename "$0")
-	printf "%s, version %s\n" "${scriptName}" "${BIB2WEB_VERSION}"
-}
-
 # Function to parse the user's options
 parseOptions() {
 	while [ "$#" -gt 0 ]; do

@@ -3,6 +3,10 @@
 #shellcheck source=../src/preprocessor.bash
 source "${SOURCE_DIRECTORY}/preprocessor.bash"
 
+setUp() {
+	setUpTools
+}
+
 tearDown() {
 	# Call the clean up again, just in case
 	cleanUp
