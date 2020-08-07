@@ -55,6 +55,36 @@ testParseOptionsLogFileWithLongNotation() {
 	assertEquals "${testFile}" "${BIB2WEB_LOG_FILE}"
 }
 
+testParseOptionsVerboseWithShortNotation() {
+	parseOptions "-v"
+	assertEquals "1" "${BIB2WEB_VERBOSE}"
+}
+
+testParseOptionsVerboseWithLongNotation() {
+	parseOptions "--verbose"
+	assertEquals "1" "${BIB2WEB_VERBOSE}"
+}
+
+testParseOptionsVeryVerboseShortNotation() {
+	parseOptions "-vv"
+	assertEquals "2" "${BIB2WEB_VERBOSE}"
+}
+
+testParseOptionsVeryVerboseLongNotation() {
+	parseOptions "--vverbose"
+	assertEquals "2" "${BIB2WEB_VERBOSE}"
+}
+
+testParseOptionsVeryVeryVerboseShortNotation() {
+	parseOptions "-vvv"
+	assertEquals "3" "${BIB2WEB_VERBOSE}"
+}
+
+testParseOptionsVeryVeryVerboseLongNotation() {
+	parseOptions "--vvverbose"
+	assertEquals "3" "${BIB2WEB_VERBOSE}"
+}
+
 testOptionsSanityCheckBibTeXFileNotSet() {
 	BIB2WEB_BIBTEX_FILE=""
 	optionsSanityCheck 2> /dev/null

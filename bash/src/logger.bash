@@ -45,8 +45,24 @@ warning() {
 
 verbose() {
 	local message="$*"
-	if [ "${BIB2WEB_VERBOSE}" ]; then
+	if [ "${BIB2WEB_VERBOSE}" -gt 0 ]; then
 		echo "${message}" >&1
 	fi
 	echo "${message}" >> "${BIB2WEB_LOG_FILE}"
+}
+
+vverbose() {
+	if [ "${BIB2WEB_VERBOSE}" -gt 1 ]; then
+		local message="$*"
+		echo "- ${message}" >&1
+		echo "- ${message}" >> "${BIB2WEB_LOG_FILE}"
+	fi
+}
+
+vvverbose() {
+	if [ "${BIB2WEB_VERBOSE}" -gt 2 ]; then
+		local message="$*"
+		echo "- ${message}" >&1
+		echo "- ${message}" >> "${BIB2WEB_LOG_FILE}"
+	fi
 }

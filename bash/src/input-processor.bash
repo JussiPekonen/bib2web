@@ -10,6 +10,8 @@ logOptions() {
 	verbose "${BIB2WEB_LOG_SEPARATOR}"
 	verbose "BibTeXFile: ${BIB2WEB_BIBTEX_FILE}"
 	verbose "Output format: ${BIB2WEB_OUTPUT_FORMAT}"
+	verbose "Log file: ${BIB2WEB_LOG_FILE}"
+	vverbose "Verbosity level: ${BIB2WEB_VERBOSE}"
 	verbose "${BIB2WEB_LOG_SEPARATOR}"
 }
 

@@ -22,6 +22,8 @@ printHelp() {
 	printf "\t\t\t\tDefault: %s. Unsupported formats are reverted to the default.\n" "${BIB2WEB_DEFAULT_OUTPUT_FORMAT}"
 	printf "  -l logfile\t--log logfile\tSets the log file. Default: %s.\n" "${BIB2WEB_DEFAULT_LOG_FILE}"
 	printf "  -v\t\t--verbose\tVerbose mode. Prints details of the tool run to standard output.\n"
+	printf "  -vv\t\t--vverbose\tHigher verbose mode. Script internal variable values are printed out.\n"
+	printf "  -vvv\t\t--vvverbose\tHigheest verbose mode. Results from the various subprocessed are printed out.\n"
 }
 
 # Function to parse the user's options
@@ -43,7 +45,15 @@ parseOptions() {
 					shift
 					;;
 				-v|--verbose)
-					BIB2WEB_VERBOSE="true"
+					BIB2WEB_VERBOSE="1"
+					shift
+					;;
+				-vv|--vverbose)
+					BIB2WEB_VERBOSE="2"
+					shift
+					;;
+				-vvv|--vvverbose)
+					BIB2WEB_VERBOSE="3"
 					shift
 					;;
 				--version)
