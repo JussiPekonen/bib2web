@@ -15,7 +15,7 @@ shunit2File="$1"
 shift
 testFile="$1"
 shift
-awkFile="${testDir}/test-gen.awk"
+awkFile="${outDir}/.test-gen.awk"
 cat <<EOF > "${awkFile}"
 /^#!.*/ {
 	print \$0
@@ -31,7 +31,7 @@ END {
 EOF
 echo "#!/bin/bash" > "${testFile}"
 for file in "$@"; do
-	outputfile=$(basename "${file}")
-	awk -f "${awkFile}" "${testDir}/${file}" > "${outDir}/${outputfile}"
-	echo "/bin/bash ${outDir}/${outputfile}" >> "${testFile}"
+	filebase=$(basename "${file}")
+	awk -f "${awkFile}" "${testDir}/${filebase}" > "${outDir}/${filebase}"
+	echo "/bin/bash ${outDir}/${filebase}" >> "${testFile}"
 done
