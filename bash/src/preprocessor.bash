@@ -112,6 +112,8 @@ setUpFiles() {
 
 # Clean-up
 cleanUp() {
-	"${BIB2WEB_RM}" -rf "${BIB2WEB_TMP_DIR}"
+	if [ "${BIB2WEB_TMP_DIR}" ] && [ -e "${BIB2WEB_TMP_DIR}" ]; then
+		"${BIB2WEB_RM}" -rf "${BIB2WEB_TMP_DIR}"
+	fi
 	verbose "Done!"
 }

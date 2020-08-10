@@ -13,9 +13,7 @@ checkResultAndAbortIfNeeded() {
 	local result="$1"
 	if [ "${result}" -gt 0 ]; then
 		echo "Aborting..." >&2
-		if [ "${BIB2WEB_TMP_DIR}" ] && [ -e "${BIB2WEB_TMP_DIR}" ]; then
-			cleanUp
-		fi
+		cleanUp
 		exit "${result}"
 	fi
 }
