@@ -18,7 +18,9 @@ printError() {
 
 error() {
 	printError "$@"
-	echo "${BIB2WEB_ERROR_MESSAGE}" >> "${BIB2WEB_LOG_FILE}"
+	if [ "${BIB2WEB_VERBOSE}" -gt "0" ]; then
+		echo "${BIB2WEB_ERROR_MESSAGE}" >> "${BIB2WEB_LOG_FILE}"
+	fi
 }
 
 generateWarningMessage() {
@@ -33,19 +35,23 @@ printWarning() {
 
 warning() {
 	printWarning "$@"
-	echo "${BIB2WEB_WARNING_MESSAGE}" >> "${BIB2WEB_LOG_FILE}"
+	if [ "${BIB2WEB_VERBOSE}" -gt "0" ]; then
+		echo "${BIB2WEB_WARNING_MESSAGE}" >> "${BIB2WEB_LOG_FILE}"
+	fi
 }
 
 verbose() {
 	local message="$*"
-	if [ "${BIB2WEB_VERBOSE}" -gt 0 ]; then
+	if [ "${BIB2WEB_VERBOSE}" -gt "1" ]; then
 		echo "${message}" >&1
 	fi
-	echo "${message}" >> "${BIB2WEB_LOG_FILE}"
+	if [ "${BIB2WEB_VERBOSE}" -gt "0" ]; then
+		echo "${message}" >> "${BIB2WEB_LOG_FILE}"
+	fi
 }
 
 vverbose() {
-	if [ "${BIB2WEB_VERBOSE}" -gt 1 ]; then
+	if [ "${BIB2WEB_VERBOSE}" -gt "2" ]; then
 		local message="$*"
 		echo "- ${message}" >&1
 		echo "- ${message}" >> "${BIB2WEB_LOG_FILE}"
@@ -53,7 +59,7 @@ vverbose() {
 }
 
 vvverbose() {
-	if [ "${BIB2WEB_VERBOSE}" -gt 2 ]; then
+	if [ "${BIB2WEB_VERBOSE}" -gt "3" ]; then
 		local message="$*"
 		echo "- ${message}" >&1
 		echo "- ${message}" >> "${BIB2WEB_LOG_FILE}"

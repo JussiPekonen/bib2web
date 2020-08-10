@@ -11,7 +11,7 @@ setUp() {
 	if [ "${result}" -gt 0 ]; then
 		fail "Could not set up the tools!"
 	fi
-	BIB2WEB_VERBOSE="0"
+	BIB2WEB_VERBOSE="1"
 }
 
 testParseOptionsNoParametersGiven() {
@@ -20,6 +20,7 @@ testParseOptionsNoParametersGiven() {
 	assertEquals "${BIB2WEB_DEFAULT_OUTPUT_FORMAT}" "${BIB2WEB_OUTPUT_FORMAT}"
 	assertEquals "" "${BIB2WEB_OUTPUT_FILE}"
 	assertEquals "${BIB2WEB_DEFAULT_LOG_FILE}" "${BIB2WEB_LOG_FILE}"
+	assertEquals "1" "${BIB2WEB_VERBOSE}"
 }
 
 testParseOptionsBibTeXFileGiven() {
@@ -70,34 +71,44 @@ testParseOptionsLogFileWithLongNotation() {
 	assertEquals "${testFile}" "${BIB2WEB_LOG_FILE}"
 }
 
+testParseOptionsNoLogWithShortNotation() {
+	parseOptions "-n"
+	assertEquals "0" "${BIB2WEB_VERBOSE}"
+}
+
+testParseOptionsNoLogWithLongNotation() {
+	parseOptions "--no-log"
+	assertEquals "0" "${BIB2WEB_VERBOSE}"
+}
+
 testParseOptionsVerboseWithShortNotation() {
 	parseOptions "-v"
-	assertEquals "1" "${BIB2WEB_VERBOSE}"
+	assertEquals "2" "${BIB2WEB_VERBOSE}"
 }
 
 testParseOptionsVerboseWithLongNotation() {
 	parseOptions "--verbose"
-	assertEquals "1" "${BIB2WEB_VERBOSE}"
+	assertEquals "2" "${BIB2WEB_VERBOSE}"
 }
 
 testParseOptionsVeryVerboseShortNotation() {
 	parseOptions "-vv"
-	assertEquals "2" "${BIB2WEB_VERBOSE}"
+	assertEquals "3" "${BIB2WEB_VERBOSE}"
 }
 
 testParseOptionsVeryVerboseLongNotation() {
 	parseOptions "--vverbose"
-	assertEquals "2" "${BIB2WEB_VERBOSE}"
+	assertEquals "3" "${BIB2WEB_VERBOSE}"
 }
 
 testParseOptionsVeryVeryVerboseShortNotation() {
 	parseOptions "-vvv"
-	assertEquals "3" "${BIB2WEB_VERBOSE}"
+	assertEquals "4" "${BIB2WEB_VERBOSE}"
 }
 
 testParseOptionsVeryVeryVerboseLongNotation() {
 	parseOptions "--vvverbose"
-	assertEquals "3" "${BIB2WEB_VERBOSE}"
+	assertEquals "4" "${BIB2WEB_VERBOSE}"
 }
 
 testOptionsSanityCheckBibTeXFileNotSet() {

@@ -29,6 +29,7 @@ printHelp() {
 	printf "\t\t\t\tDefault: %s. Unsupported formats are reverted to the default.\n" "${BIB2WEB_DEFAULT_OUTPUT_FORMAT}"
 	printf "  -o output\t--output output\tSets the output file. Default: %s.{format}\n" "${BIB2WEB_OUTPUT_FILE_DEFAULT_PREFIX}"
 	printf "  -l logfile\t--log logfile\tSets the log file. Default: %s.\n" "${BIB2WEB_DEFAULT_LOG_FILE}"
+	printf "  -n\t\t--no-log\tDoes not create the log file.\n"
 	printf "  -v\t\t--verbose\tVerbose mode. Prints details of the tool run to standard output.\n"
 	printf "  -vv\t\t--vverbose\tHigher verbose mode. Script internal variable values are printed out.\n"
 	printf "  -vvv\t\t--vvverbose\tHighest verbose mode. Results from the various subprocessed are printed out.\n"
@@ -52,21 +53,25 @@ parseOptions() {
 					BIB2WEB_LOG_FILE="$1"
 					shift
 					;;
+				-n|--no-log)
+					BIB2WEB_VERBOSE="0"
+					shift
+					;;
 				-o|--output)
 					shift
 					BIB2WEB_OUTPUT_FILE="$1"
 					shift
 					;;
 				-v|--verbose)
-					BIB2WEB_VERBOSE="1"
-					shift
-					;;
-				-vv|--vverbose)
 					BIB2WEB_VERBOSE="2"
 					shift
 					;;
-				-vvv|--vvverbose)
+				-vv|--vverbose)
 					BIB2WEB_VERBOSE="3"
+					shift
+					;;
+				-vvv|--vvverbose)
+					BIB2WEB_VERBOSE="4"
 					shift
 					;;
 				--version)
@@ -120,6 +125,5 @@ optionsSanityCheck() {
 	if [ ! "${BIB2WEB_OUTPUT_FILE}" ]; then
 		BIB2WEB_OUTPUT_FILE="${BIB2WEB_OUTPUT_FILE_DEFAULT_PREFIX}.${BIB2WEB_OUTPUT_FORMAT}"
 	fi
-	logOptions
 	return 0
 }

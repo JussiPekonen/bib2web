@@ -34,6 +34,9 @@ main() {
 	setUpFiles
 	checkResultAndAbortIfNeeded "$?"
 
+	# Log options
+	logOptions
+
 	# Process the input file
 	processInputFile
 	checkResultAndAbortIfNeeded "$?"

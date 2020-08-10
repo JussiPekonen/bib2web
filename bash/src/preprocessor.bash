@@ -99,11 +99,13 @@ setUpFiles() {
 	if [ -e "${BIB2WEB_LOG_FILE}" ]; then
 		"${BIB2WEB_RM}" "${BIB2WEB_LOG_FILE}"
 	fi
-	"${BIB2WEB_TOUCH}" "${BIB2WEB_LOG_FILE}" 2> /dev/null
-	local touchResult="$?"
-	if [ "${touchResult}" -gt 0 ]; then
-		printError "Could not create the log file!"
-		return "${BIB2WEB_CANNOT_CREATE_LOG_FILE}"
+	if [ "${BIB2WEB_VERBOSE}" -gt 0 ]; then
+		"${BIB2WEB_TOUCH}" "${BIB2WEB_LOG_FILE}" 2> /dev/null
+		local touchResult="$?"
+		if [ "${touchResult}" -gt 0 ]; then
+			printError "Could not create the log file!"
+			return "${BIB2WEB_CANNOT_CREATE_LOG_FILE}"
+		fi
 	fi
 	return 0
 }
