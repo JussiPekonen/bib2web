@@ -21,9 +21,10 @@ BEGIN {
 		print data > file
 		data = ""
 	}
-	split(\$0, entry, "{")
-	split(entry[2], key, ",")
-	file = "${BIB2WEB_TMP_DIR}/" key[1] ".bib"
+	key = \$0
+	sub(/.*{/, "", key)
+	sub(/,$/, "", key)
+	file = "${BIB2WEB_TMP_DIR}/" key ".bib"
 }
 {
 	data = data \$0 "\n"
