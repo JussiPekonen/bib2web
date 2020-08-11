@@ -5,6 +5,9 @@ source "${SOURCE_DIRECTORY}/preprocessor.bash"
 #shellcheck source=../src/input-processor.bash
 source "${SOURCE_DIRECTORY}/input-processor.bash"
 
+# Note: This is the number of supported data fields
+NUMBER_OF_DATA_FIELDS="26"
+
 setUp() {
 	setUpTools
 	local toolsResult="$?"
@@ -47,13 +50,16 @@ testParseEntry() {
 	local numberOfSplitEntries
 	numberOfSplitEntries=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib" | grep -c ".bib")
 
+	local numberOfParsedFields
+	numberOfParsedFields=$((numberOfSplitEntries * NUMBER_OF_DATA_FIELDS))
+
 	local entryFile
 	entryFile=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib")
 	parseEntry "${entryFile}"
 
 	local numberOfParsedEntries
-	numberOfParsedEntries=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib2web" | grep -c ".bib2web")
-	assertEquals "${numberOfSplitEntries}" "${numberOfParsedEntries}"
+	numberOfParsedEntries=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib.*" | grep -c ".bib")
+	assertEquals "${numberOfParsedFields}" "${numberOfParsedEntries}"
 }
 
 testParseSeveralEntries() {
@@ -62,9 +68,12 @@ testParseSeveralEntries() {
 	local numberOfSplitEntries
 	numberOfSplitEntries=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib" | grep -c ".bib")
 
+	local numberOfParsedFields
+	numberOfParsedFields=$((numberOfSplitEntries * NUMBER_OF_DATA_FIELDS))
+
 	parseEntries
 
 	local numberOfParsedEntries
-	numberOfParsedEntries=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib2web" | grep -c ".bib2web")
-	assertEquals "${numberOfSplitEntries}" "${numberOfParsedEntries}"
+	numberOfParsedEntries=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib.*" | grep -c ".bib")
+	assertEquals "${numberOfParsedFields}" "${numberOfParsedEntries}"
 }
