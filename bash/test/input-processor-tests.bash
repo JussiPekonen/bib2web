@@ -30,7 +30,7 @@ testSplittingInputFileWithOnlyOneEntryResultsInASingleFile() {
 	assertEquals "1" "${numberOfSplitEntries}"
 }
 
-testSplittingInputFileWithOnlyMoreThanOneEntryResultsInMultipleFile() {
+testSplittingInputFileWithOnlyMoreThanOneEntryResultsInMultipleFiles() {
 	BIB2WEB_BIBTEX_FILE="${SOURCE_DIRECTORY}/../../testdata/combined.bib"
 	processInputFile
 	local numberOfSplitEntries
@@ -39,4 +39,32 @@ testSplittingInputFileWithOnlyMoreThanOneEntryResultsInMultipleFile() {
 	expectedNumberOfEntries=$(grep -c "^@" "${BIB2WEB_BIBTEX_FILE}")
 	assertNotEquals "1" "${numberOfSplitEntries}"
 	assertEquals "${expectedNumberOfEntries}" "${numberOfSplitEntries}"
+}
+
+testParseEntry() {
+	BIB2WEB_BIBTEX_FILE="${SOURCE_DIRECTORY}/../../testdata/article/minimum.bib"
+	processInputFile
+	local numberOfSplitEntries
+	numberOfSplitEntries=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib" | grep -c ".bib")
+
+	local entryFile
+	entryFile=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib")
+	parseEntry "${entryFile}"
+
+	local numberOfParsedEntries
+	numberOfParsedEntries=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib2web" | grep -c ".bib2web")
+	assertEquals "${numberOfSplitEntries}" "${numberOfParsedEntries}"
+}
+
+testParseSeveralEntries() {
+	BIB2WEB_BIBTEX_FILE="${SOURCE_DIRECTORY}/../../testdata/combined.bib"
+	processInputFile
+	local numberOfSplitEntries
+	numberOfSplitEntries=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib" | grep -c ".bib")
+
+	parseEntries
+
+	local numberOfParsedEntries
+	numberOfParsedEntries=$(find "${BIB2WEB_TMP_DIR}" -name "*.bib2web" | grep -c ".bib2web")
+	assertEquals "${numberOfSplitEntries}" "${numberOfParsedEntries}"
 }

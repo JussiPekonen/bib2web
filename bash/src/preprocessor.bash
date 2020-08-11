@@ -43,6 +43,13 @@ setUpTools() {
 		printError "No tool finder tool available!"
 		return "${toolFinderResult}"
 	fi
+	# basename
+	BIB2WEB_BASENAME=$("${toolFinder}" "basename")
+	local basenameResult="$?"
+	if [ "${basenameResult}" -gt 0 ]; then
+		printError "basename not found!"
+		return "${BIB2WEB_BASENAME_NOT_FOUND}"
+	fi
 	# grep
 	BIB2WEB_GREP=$("${toolFinder}" "grep")
 	local grepResult="$?"
@@ -84,6 +91,13 @@ setUpTools() {
 	if [ "${catResult}" -gt 0 ]; then
 		printError "cat not found!"
 		return "${BIB2WEB_CAT_NOT_FOUND}"
+	fi
+	# find
+	BIB2WEB_FIND=$("${toolFinder}" "find")
+	local findResult="$?"
+	if [ "${findResult}" -gt 0 ]; then
+		printError "find not found!"
+		return "${BIB2WEB_FIND_NOT_FOUND}"
 	fi
 	return 0
 }

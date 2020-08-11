@@ -39,6 +39,10 @@ main() {
 	processInputFile
 	checkResultAndAbortIfNeeded "$?"
 
+	# Process the entries
+	processEntries
+	checkResultAndAbortIfNeeded "$?"
+
 	# Clean up the temporary directory
 	cleanUp
 }

@@ -53,8 +53,8 @@ verbose() {
 vverbose() {
 	if [ "${BIB2WEB_VERBOSE}" -gt "2" ]; then
 		local message="$*"
-		echo "- ${message}" >&1
-		echo "- ${message}" >> "${BIB2WEB_LOG_FILE}"
+		echo "* ${message}" >&1
+		echo "* ${message}" >> "${BIB2WEB_LOG_FILE}"
 	fi
 }
 

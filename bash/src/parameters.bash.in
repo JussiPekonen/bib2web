@@ -4,12 +4,14 @@
 export BIB2WEB_VERSION="%BIB2WEB_VERSION%"
 
 # Shell tools used by the script
+export BIB2WEB_BASENAME
 export BIB2WEB_GREP
 export BIB2WEB_AWK
 export BIB2WEB_MKTEMP
 export BIB2WEB_RM
 export BIB2WEB_TOUCH
 export BIB2WEB_CAT
+export BIB2WEB_FIND
 
 # Temporary directory and files
 export BIB2WEB_TMP_DIR

@@ -10,7 +10,7 @@ source "${BIB2WEB_BASE_DIR}/error-codes.bash"
 # Generic version getter
 getVersion() {
 	local scriptName
-	scriptName=$(basename "$0")
+	scriptName=$("${BIB2WEB_BASENAME}" "$0")
 	printf "%s, version %s" "${scriptName}" "${BIB2WEB_VERSION}"
 }
 
