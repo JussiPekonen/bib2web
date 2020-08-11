@@ -17,6 +17,12 @@ grow with time. However, it will be mostly empty for a while because I have also
 other things to do and my skills in all listed programming languages require
 some practice first…
 
+## Dependencies
+
+[CMake](https://cmake.org/) is used for building/bundling the libraries. The
+language-specific dependencies can be found in the README.md file of the
+corresponding directory.
+
 ## Implementations
 
 ### Done:
