@@ -9,4 +9,4 @@ set(BASH_TEST_FILES
 setupShellTests(bash "${CMAKE_CURRENT_SOURCE_DIR}/../tools/generate-test-master.bash" "${BASH_TEST_FILES}")
 
 # Set up test code linting
-setupShellLinting(bash-test bash-version "${BASH_TEST_FILES}")
+setupShellLinting(bash-test "${BASH_TEST_FILES}" bash)

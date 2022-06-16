@@ -17,4 +17,6 @@ add_custom_command(TARGET bash-version
 	COMMAND sed ARGS 's/%BIB2WEB_VERSION%/0.0/' "${CMAKE_CURRENT_SOURCE_DIR}/parameters.bash.in" > "${CMAKE_CURRENT_SOURCE_DIR}/parameters.bash")
 
 # Set up test code linting
-setupShellLinting(bash bash-version "${BASH_SRC_FILES}")
+setupShellLinting(bash "${BASH_SRC_FILES}")
+# Add bash-version as a dependency, otherwise the linter will fail
+add_dependencies(bash-lint bash-version)

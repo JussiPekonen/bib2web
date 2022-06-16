@@ -30,7 +30,8 @@ endfunction()
 checkTool(shellcheck)
 
 # Function to running shell linter using shellcheck
-function(setupShellLinting target_name dependency files)
+function(setupShellLinting target_name files)
+	set(master_target "${ARGN}")
 	# Add target for running shellcheck, if possible
 	if (BIB2WEB_shellcheck_EXISTS)
 		add_custom_target("${target_name}-lint"
@@ -41,9 +42,8 @@ function(setupShellLinting target_name dependency files)
 			WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 		# Add the shell linting target as a dependency to the general linting target
 		add_dependencies(lint "${target_name}-lint")
-		# Add the dependency to this newly created target
-		if (NOT "${dependency}" STREQUAL "")
-			add_dependencies("${target_name}-lint" "${dependency}")
+		if (NOT "${master_target}" STREQUAL "")
+			add_dependencies("${master_target}-lint" "${target_name}-lint")
 		endif()
 	endif()
 endfunction()

@@ -4,4 +4,4 @@ set(BASH_TOOL_FILES
 )
 
 # Set up test code linting
-setupShellLinting(bash-tools "" "${BASH_TOOL_FILES}")
+setupShellLinting(bash-tools "${BASH_TOOL_FILES}" bash)
