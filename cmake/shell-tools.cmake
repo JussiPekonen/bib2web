@@ -7,18 +7,41 @@ checkTool(shunit2)
 function(setupShellTests shell generator test_files)
 	# Add target for running the tests, if possible
 	if(BIB2WEB_shunit2_EXISTS)
+		# Process the test files to be runnable
+		set(processed_test_files "")
+		foreach(file ${test_files})
+			set(output_file "${CMAKE_CURRENT_BINARY_DIR}/runnable-${file}")
+			add_custom_command(
+				OUTPUT "${output_file}"
+				COMMAND echo ARGS "\\#!/bin/${shell}" > "${output_file}"
+				COMMAND echo ARGS "SOURCE_DIRECTORY=${CMAKE_CURRENT_SOURCE_DIR}/../src" >> "${output_file}"
+				COMMAND echo ARGS "BIB2WEB_BASE_DIR=${CMAKE_CURRENT_SOURCE_DIR}/../src" >> "${output_file}"
+				COMMAND echo ARGS "oneTimeSetUp\\(\\) {" >> "${output_file}"
+				COMMAND echo ARGS "  echo \\\"\\\"" >> "${output_file}"
+				COMMAND echo ARGS "  echo \\\"Running tests from ${file}...\\\"" >> "${output_file}"
+				COMMAND echo ARGS "  echo \\\"\\\"" >> "${output_file}"
+				COMMAND echo ARGS "}" >> "${output_file}"
+				COMMAND grep ARGS "-v" "/bin/${shell}" "${CMAKE_CURRENT_SOURCE_DIR}/${file}" >> "${output_file}"
+				COMMAND echo ARGS "source ${BIB2WEB_shunit2}" >> "${output_file}"
+				DEPENDS "${file}"
+			)
+			list(APPEND processed_test_files "${output_file}")
+		endforeach()
 		# Generate the master test file to be run
-		set("${shell}_TEST_MASTER_FILE" "${CMAKE_CURRENT_BINARY_DIR}/.${shell}-test.sh")
+		set(main_test_file "${CMAKE_CURRENT_BINARY_DIR}/test.${shell}")
 		add_custom_command(
-			OUTPUT "${${shell}_TEST_MASTER_FILE}"
-			COMMAND "/bin/${shell}" ARGS "${generator}" "${CMAKE_CURRENT_SOURCE_DIR}/../src" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}" "${BIB2WEB_shunit2}" "${${shell}_TEST_MASTER_FILE}" ${test_files}
-			DEPENDS "${generator}" "${test_files}")
-		# Custom target for running the test
-		add_custom_target("${shell}-test"
-			DEPENDS "${${shell}_TEST_MASTER_FILE}")
+			OUTPUT "${main_test_file}"
+			COMMAND ls ARGS "${CMAKE_CURRENT_BINARY_DIR}/runnable-*" > "${CMAKE_CURRENT_BINARY_DIR}/tests.tmp"
+			COMMAND sed ARGS "'s#^#/bin/${shell} #g'" "${CMAKE_CURRENT_BINARY_DIR}/tests.tmp" > "${main_test_file}"
+			DEPENDS "${test_files}" "${processed_test_files}"
+			)
+		# Add target for running the tests
+		add_custom_target("${shell}-test" DEPENDS "${main_test_file}")
 		add_custom_command(
 			TARGET "${shell}-test"
-			COMMAND "/bin/${shell}" ARGS "${${shell}_TEST_MASTER_FILE}")
+			COMMAND "/bin/${shell}" ARGS "${main_test_file}"
+			COMMAND rm ARGS "${CMAKE_CURRENT_BINARY_DIR}/runnable-*"
+			)
 		# Add the testing target as a dependency to the general testing target
 		add_dependencies(test "${shell}-test")
 	else()
