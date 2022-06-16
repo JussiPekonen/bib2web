@@ -10,11 +10,13 @@ set(BASH_SRC_FILES
 	)
 
 # Set the Bash tool version
+set(BIB2WEB_BASH_VERSION "0.0")
+getVersionFromTag("bash" BIB2WEB_BASH_VERSION)
 add_custom_target(bash-version
 	DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/parameters.bash.in")
-# FIXME: Set the version based on the repository tags
 add_custom_command(TARGET bash-version
-	COMMAND sed ARGS 's/%BIB2WEB_VERSION%/0.0/' "${CMAKE_CURRENT_SOURCE_DIR}/parameters.bash.in" > "${CMAKE_CURRENT_SOURCE_DIR}/parameters.bash")
+	COMMAND sed ARGS 's/%BIB2WEB_VERSION%/${BIB2WEB_BASH_VERSION}/' "${CMAKE_CURRENT_SOURCE_DIR}/parameters.bash.in" > "${CMAKE_CURRENT_SOURCE_DIR}/parameters.bash")
+
 
 # Set up test code linting
 setupShellLinting(bash "${BASH_SRC_FILES}")
