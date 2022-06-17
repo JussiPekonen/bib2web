@@ -1,5 +1,6 @@
 # The individual test files
 set(BASH_TEST_FILES
+	logger-tests.bash
 	preprocessor-tests.bash
 	options-parser-tests.bash
 	input-processor-tests.bash
