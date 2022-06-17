@@ -31,8 +31,7 @@ function(setupShellTests shell generator test_files)
 		set(main_test_file "${CMAKE_CURRENT_BINARY_DIR}/test.${shell}")
 		add_custom_command(
 			OUTPUT "${main_test_file}"
-			COMMAND ls ARGS "${CMAKE_CURRENT_BINARY_DIR}/runnable-*" > "${CMAKE_CURRENT_BINARY_DIR}/tests.tmp"
-			COMMAND sed ARGS "'s#^#/bin/${shell} #g'" "${CMAKE_CURRENT_BINARY_DIR}/tests.tmp" > "${main_test_file}"
+			COMMAND ls ARGS "${CMAKE_CURRENT_BINARY_DIR}/runnable-*" | sed "'s#^#/bin/${shell} #g'" > "${main_test_file}"
 			DEPENDS "${test_files}" "${processed_test_files}"
 			)
 		# Add target for running the tests
