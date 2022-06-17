@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Version, automagically set by the build system
+export BIB2WEB_VERSION="%BIB2WEB_VERSION%"
+
+# Shell tools used by the script
+export BIB2WEB_BASENAME
+export BIB2WEB_GREP
+export BIB2WEB_AWK
+export BIB2WEB_MKTEMP
+export BIB2WEB_RM
+export BIB2WEB_TOUCH
+export BIB2WEB_CAT
+export BIB2WEB_FIND
+
+# Temporary directory and files
+export BIB2WEB_TMP_DIR
+
+# Constant variables used by option parsing
+export BIB2WEB_OUTPUT_FORMAT_HTML="html"
+export BIB2WEB_OUTPUT_FORMAT_JSON="json"
+export BIB2WEB_SUPPORTED_OUTPUT_FORMATS="${BIB2WEB_OUTPUT_FORMAT_HTML}, ${BIB2WEB_OUTPUT_FORMAT_JSON}"
+export BIB2WEB_DEFAULT_OUTPUT_FORMAT="${BIB2WEB_OUTPUT_FORMAT_HTML}"
+export BIB2WEB_DEFAULT_LOG_FILE="bib2web.log"
+export BIB2WEB_OUTPUT_FILE_DEFAULT_PREFIX="bib2web"
+
+export BIB2WEB_LOG_SEPARATOR="----------"
+
+# Parameters set by the option parsing
+export BIB2WEB_BIBTEX_FILE=""
+export BIB2WEB_OUTPUT_FORMAT="${BIB2WEB_DEFAULT_OUTPUT_FORMAT}"
+export BIB2WEB_VERBOSE="1"
+export BIB2WEB_LOG_FILE="${BIB2WEB_DEFAULT_LOG_FILE}"
+export BIB2WEB_OUTPUT_FILE=""
