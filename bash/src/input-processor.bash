@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # shellcheck source=./parameters.bash
-source "${BIB2WEB_BASE_DIR}/parameters.bash"
+source "${BIB2WEB_BASE_DIR:-../src}/parameters.bash"
 # shellcheck source=./logger.bash
-source "${BIB2WEB_BASE_DIR}/logger.bash"
+source "${BIB2WEB_BASE_DIR:-../src}/logger.bash"
 
 generateEntrySplitterFile() {
 	local splitterFile="$1"

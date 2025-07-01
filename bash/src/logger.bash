@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # shellcheck source=./parameters.bash
-source "${BIB2WEB_BASE_DIR}/parameters.bash"
+source "${BIB2WEB_BASE_DIR:-../src}/parameters.bash"
 
 BIB2WEB_ERROR_MESSAGE=""
 BIB2WEB_WARNING_MESSAGE=""

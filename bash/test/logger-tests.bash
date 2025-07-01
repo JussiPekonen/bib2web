@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #shellcheck source=../src/preprocessor.bash
-source "${SOURCE_DIRECTORY}/preprocessor.bash"
+source "../src/preprocessor.bash"
 #shellcheck source=../src/logger.bash
-source "${SOURCE_DIRECTORY}/logger.bash"
+source "../src/logger.bash"
 
 setUp() {
   # Clear the slate

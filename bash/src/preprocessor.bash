@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # shellcheck source=./parameters.bash
-source "${BIB2WEB_BASE_DIR}/parameters.bash"
+source "${BIB2WEB_BASE_DIR:-../src}/parameters.bash"
 # shellcheck source=./logger.bash
-source "${BIB2WEB_BASE_DIR}/logger.bash"
+source "${BIB2WEB_BASE_DIR:-../src}/logger.bash"
 # shellcheck source=./error-codes.bash
-source "${BIB2WEB_BASE_DIR}/error-codes.bash"
+source "${BIB2WEB_BASE_DIR:-../src}/error-codes.bash"
 
 # Set up tools
 setUpTools() {

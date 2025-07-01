@@ -1,5 +1,11 @@
 include("${PROJECT_SOURCE_DIR}/cmake/check-tools.cmake")
 
+find_package(Shunit2 QUIET)
+if(NOT Shunit2_EXISTS)
+	message("shunit2 not found")
+else()
+	message("shunit2 found")
+endif()
 # Pre-check that shunit2 is available
 checkTool(shunit2)
 
@@ -39,7 +45,7 @@ function(setupShellTests shell generator test_files)
 		add_custom_command(
 			TARGET "${shell}-test"
 			COMMAND "/bin/${shell}" ARGS "${main_test_file}"
-			COMMAND rm ARGS "${CMAKE_CURRENT_BINARY_DIR}/runnable-*"
+			#COMMAND rm ARGS "${CMAKE_CURRENT_BINARY_DIR}/runnable-*"
 			)
 		# Add the testing target as a dependency to the general testing target
 		add_dependencies(test "${shell}-test")

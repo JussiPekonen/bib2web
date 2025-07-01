@@ -3,11 +3,11 @@
 BIB2WEB_BASE_DIR=$(dirname "$0")
 
 # shellcheck source=./preprocessor.bash
-source "${BIB2WEB_BASE_DIR}/preprocessor.bash"
+source "${BIB2WEB_BASE_DIR:-../src}/preprocessor.bash"
 # shellcheck source=./options-parser.bash
-source "${BIB2WEB_BASE_DIR}/options-parser.bash"
+source "${BIB2WEB_BASE_DIR:-../src}/options-parser.bash"
 # shellcheck source=./input-processor.bash
-source "${BIB2WEB_BASE_DIR}/input-processor.bash"
+source "${BIB2WEB_BASE_DIR:-../src}/input-processor.bash"
 
 checkResultAndAbortIfNeeded() {
 	local result="$1"
